@@ -4,7 +4,8 @@ var app = {
         x: 0,
         y: 0,
         z:0
-    }
+    },
+    catAudio: document.getElementById("catAudio")
 };
 
 window.addEventListener('devicemotion', deviceMotionHandler, false);
@@ -31,8 +32,9 @@ function deviceMotionHandler(eventData) {
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    if (Math.abs(mAcc.x) > 2000 || Math.abs(mAcc.y) > 2000 || Math.abs(mAcc.z) > 2000) {
+    if (Math.abs(mAcc.x) > 3000 || Math.abs(mAcc.y) > 3000 || Math.abs(mAcc.z) > 3000) {
         document.body.style.backgroundColor = "red";
+        app.catAudio.play();
     }
     else {
         document.body.style.backgroundColor = "yellow";
