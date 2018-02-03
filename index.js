@@ -22,9 +22,6 @@ function deviceMotionHandler(eventData) {
     mAcc.y = acc.y * SCALE;
     mAcc.z = acc.z * SCALE;
 
-    var gy = Math.abs(accg.y - acc.y);
-    var rgy = Math.floor(gy);
-
     app.max.x = updateMaxValue(mAcc.x, app.max.x);
     app.max.y = updateMaxValue(mAcc.y, app.max.y);
     app.max.z = updateMaxValue(mAcc.z, app.max.z);
@@ -34,9 +31,9 @@ function deviceMotionHandler(eventData) {
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    /*if (rgy < 9) {
-        alert("not straight");
-    }*/
+    if (Math(mAcc.x) > 800 || Math(mAcc.y) > 800 || Math(mAcc.z) > 800) {
+        document.body.style.backgroundColor = "red";
+    }
 }
 
 function updateMaxValue(val, field) {
