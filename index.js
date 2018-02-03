@@ -6,11 +6,12 @@ function deviceMotionHandler(eventData) {
 
     var acc = eventData.acceleration
     var accg = eventData.accelerationIncludingGravity;
+    var mAcc = {};
 
     //scale acc values
-    acc.x = acc.x * SCALE;
-    acc.y = acc.y * SCALE;
-    acc.z = acc.z * SCALE;
+    mAcc.x = acc.x * SCALE;
+    mAcc.y = acc.y * SCALE;
+    mAcc.z = acc.z * SCALE;
 
     var gy = Math.abs(accg.y - acc.y);
     var rgy = Math.floor(gy);
@@ -19,12 +20,12 @@ function deviceMotionHandler(eventData) {
     max.y = 0;
     max.z = 0;
 
-    updateMaxValue(acc.x, max.x);
-    updateMaxValue(acc.y, max.y);
-    updateMaxValue(acc.z, max.z);
+    updateMaxValue(mAcc.x, max.x);
+    updateMaxValue(mAcc.y, max.y);
+    updateMaxValue(mAcc.z, max.z);
 
     //display acc readings
-    var accReading = "<p>x: " + acc.x + "</br>y: " + acc.y + "</br>z: " + acc.z + "</br> max: ( " + max.x + ", " + max.y + ", " + max.z + " )"; 
+    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + max.x + ", " + max.y + ", " + max.z + " )"; 
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
