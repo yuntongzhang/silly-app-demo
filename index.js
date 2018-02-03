@@ -1,6 +1,6 @@
 // define global var here
 var app = {
-    max
+    max: {}
 };
 
 window.addEventListener('devicemotion', deviceMotionHandler, false);
