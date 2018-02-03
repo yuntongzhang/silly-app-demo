@@ -1,4 +1,10 @@
+// define global var here
+var app = {
+    max
+};
+
 window.addEventListener('devicemotion', deviceMotionHandler, false);
+var max = {};
 
 function deviceMotionHandler(eventData) {
 
@@ -15,14 +21,14 @@ function deviceMotionHandler(eventData) {
 
     var gy = Math.abs(accg.y - acc.y);
     var rgy = Math.floor(gy);
-    var max = {};
-    max.x = 0;
-    max.y = 0;
-    max.z = 0;
+    
+    app.max.x = 0;
+    app.max.y = 0;
+    app.max.z = 0;
 
-    updateMaxValue(mAcc.x, max.x);
-    updateMaxValue(mAcc.y, max.y);
-    updateMaxValue(mAcc.z, max.z);
+    updateMaxValue(mAcc.x, app.max.x);
+    updateMaxValue(mAcc.y, app.max.y);
+    updateMaxValue(mAcc.z, app.max.z);
 
     //display acc readings
     var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + max.x + ", " + max.y + ", " + max.z + " )"; 
