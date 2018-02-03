@@ -2,8 +2,16 @@ window.addEventListener('devicemotion', deviceMotionHandler, false);
 
 function deviceMotionHandler(eventData) {
 
+    var SCALE = 1000;
+
     var acc = eventData.acceleration
     var accg = eventData.accelerationIncludingGravity;
+
+    //scale acc values
+    acc.x = acc.x * SCALE;
+    acc.y = acc.y * SCALE;
+    acc.z = acc.z * SCALE;
+
     var gy = Math.abs(accg.y - acc.y);
     var rgy = Math.floor(gy);
     var max = {};
