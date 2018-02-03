@@ -9,6 +9,7 @@ var app = {
 };
 
 window.addEventListener('devicemotion', deviceMotionHandler, false);
+app.catAudio.play();
 
 function deviceMotionHandler(eventData) {
 
