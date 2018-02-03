@@ -11,9 +11,9 @@ function deviceMotionHandler(eventData) {
     max.y = 0;
     max.z = 0;
 
-    updateMaxValue(acc.x, "x");
-    updateMaxValue(acc.y, "y");
-    updateMaxValue(acc.z, "z");
+    updateMaxValue(acc.x, max.x);
+    updateMaxValue(acc.y, max.y);
+    updateMaxValue(acc.z, max.z);
 
     //display acc readings
     var accReading = "<p>x: " + acc.x + "</br>y: " + acc.y + "</br>z: " + acc.z + "</br> max: ( " + max.x + ", " + max.y + ", " + max.z + " )"; 
@@ -26,7 +26,7 @@ function deviceMotionHandler(eventData) {
 }
 
 function updateMaxValue(val, field) {
-    if (Math.abs(val) > max[field]) {
-        max[field] = val;
+    if (Math.abs(val) > field) {
+        field = val;
     }
 }
