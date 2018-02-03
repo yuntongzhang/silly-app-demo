@@ -31,8 +31,11 @@ function deviceMotionHandler(eventData) {
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    if (Math.abs(mAcc.x) > 500 || Math.abs(mAcc.y) > 500 || Math.abs(mAcc.z) > 500) {
+    if (Math.abs(mAcc.x) > 100 || Math.abs(mAcc.y) > 100 || Math.abs(mAcc.z) > 100) {
         document.body.style.backgroundColor = "red";
+    }
+    else {
+        document.body.style.backgroundColor = "yellow";
     }
 }
 
