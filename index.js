@@ -1,10 +1,9 @@
 // define global var here
 var app = {
-    max: {}
+    
 };
 
 window.addEventListener('devicemotion', deviceMotionHandler, false);
-var max = {};
 
 function deviceMotionHandler(eventData) {
 
@@ -21,17 +20,17 @@ function deviceMotionHandler(eventData) {
 
     var gy = Math.abs(accg.y - acc.y);
     var rgy = Math.floor(gy);
-    
-    app.max.x = 0;
-    app.max.y = 0;
-    app.max.z = 0;
+    var max = {};
+    max.x = 0;
+    max.y = 0;
+    max.z = 0;
 
-    updateMaxValue(mAcc.x, app.max.x);
-    updateMaxValue(mAcc.y, app.max.y);
-    updateMaxValue(mAcc.z, app.max.z);
+    max.x = updateMaxValue(mAcc.x, max.x);
+    max.y = updateMaxValue(mAcc.y, max.y);
+    max.z = updateMaxValue(mAcc.z, max.z);
 
     //display acc readings
-    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )"; 
+    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + max.x + ", " + max.y + ", " + max.z + " )"; 
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
@@ -44,4 +43,5 @@ function updateMaxValue(val, field) {
     if (Math.abs(val) > field) {
         field = val;
     }
+    return field;
 }
