@@ -34,7 +34,7 @@ function deviceMotionHandler(eventData) {
     //do silly stuff
     if (Math.abs(mAcc.x) > 3000 || Math.abs(mAcc.y) > 3000 || Math.abs(mAcc.z) > 3000) {
         document.body.style.backgroundColor = "red";
-        app.catAudio.play();
+        document.getElementById("catAudio").play();
     }
     else {
         document.body.style.backgroundColor = "yellow";
