@@ -4,18 +4,29 @@ var app = {
         x: 0,
         y: 0,
         z: 0
-    },
-    catAudio: document.getElementById("catAudio")
+    }
 };
 
+window.addEventListener("DOMContentLoaded", function () {
+
+}, false);
+
+
 //new generic sensor api
-let sensor = new Accelerometer();
+let sensor = new LinearAccelerationSensor();
 sensor.start();
 
 sensor.onreading = () => {
-    console.log("Acceleration along X-axis: " + sensor.x);
-    console.log("Acceleration along Y-axis: " + sensor.y);
-    console.log("Acceleration along Z-axis: " + sensor.z);
+    var event = new CustomEvent('devicemotion', {
+        detail: {
+            acceleration: {
+                x: sensor.x,
+                y: sensor.y,
+                z: sensor.z
+            }
+        }
+    });
+    window.dispatchEvent(event);
 }
 
 sensor.onerror = event => console.log(event.error.name, event.error.message);
@@ -25,9 +36,7 @@ window.addEventListener('devicemotion', deviceMotionHandler, false);
 function deviceMotionHandler(eventData) {
 
     var SCALE = 1000;
-
-    var acc = eventData.acceleration
-    var accg = eventData.accelerationIncludingGravity;
+    var acc = eventData.detail.acceleration;
     var mAcc = {};
 
     //scale acc values
@@ -46,7 +55,9 @@ function deviceMotionHandler(eventData) {
     //do silly stuff
     if (Math.abs(mAcc.x) > 3000 || Math.abs(mAcc.y) > 3000 || Math.abs(mAcc.z) > 3000) {
         document.body.style.backgroundColor = "red";
-        document.getElementById("catAudio").play();
+        app.catAudio = new Audio("audio/cat.mp3");
+        app.catAudio.play();
+        sleep(500);
     }
     else {
         document.body.style.backgroundColor = "yellow";
@@ -59,3 +70,13 @@ function updateMaxValue(val, field) {
     }
     return field;
 }
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
