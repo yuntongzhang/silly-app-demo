@@ -3,13 +3,27 @@ var app = {
     max: {
         x: 0,
         y: 0,
-        z:0
+        z: 0
     },
     catAudio: document.getElementById("catAudio")
 };
 
+//new generic sensor api
+let sensor = new Accelerometer();
+sensor.start();
+
+sensor.onreading(function () {
+    console.log("Acceleration along X-axis: " + sensor.x);
+    console.log("Acceleration along Y-axis: " + sensor.y);
+    console.log("Acceleration along Z-axis: " + sensor.z);
+});
+
+sensor.onerror(function (event) {
+    console.log(event.error.name, event.error.message)
+});
+
+
 window.addEventListener('devicemotion', deviceMotionHandler, false);
-app.catAudio.play();
 
 function deviceMotionHandler(eventData) {
 
@@ -29,7 +43,7 @@ function deviceMotionHandler(eventData) {
     app.max.z = updateMaxValue(mAcc.z, app.max.z);
 
     //display acc readings
-    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )"; 
+    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )";
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
