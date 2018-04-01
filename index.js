@@ -7,10 +7,16 @@ var app = {
     }
 };
 
-window.addEventListener("DOMContentLoaded", function () {
+//media paths collection
+var audio = [
+    "audio/cat.mp3",
+    "nonono.mp3"
+];
 
-}, false);
-
+var img = [
+    "img/broken.png",
+    "img/cry.jpg"
+];
 
 //new generic sensor api
 let sensor = new LinearAccelerationSensor();
@@ -53,19 +59,33 @@ function deviceMotionHandler(eventData) {
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    if (Math.abs(mAcc.x) > 3000 || Math.abs(mAcc.y) > 3000 || Math.abs(mAcc.z) > 3000) {
-        document.body.style.backgroundColor = "red";
-        app.catAudio = new Audio("audio/cat.mp3");
-        app.catAudio.play();
-        sleep(500);
+    var shakyUpper = 6000;
+    var shakyLower = 2000;
+
+    if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
+        document.body.style.backgroundImage = "url(img/lolguy)";
+        var scream = new Audio(randomPicker(audio));
+        scream.play();
+        document.body.style.backgroundImage = "url(" + randomPicker(img) + ")";
+        sleep(800);
+        document.body.style.backgroundImage = "url(img/poker.png)";
+        sleep(800);
     }
     else {
-        document.body.style.backgroundColor = "yellow";
+        if (Math.abs(mAcc.x) > shakyLower || Math.abs(mAcc.y) > shakyLower || Math.abs(mAcc.z) > shakyLower) {
+            document.body.style.backgroundImage = "url(img/poker.png)";
+            sleep(1000);
+        }
+        else {
+            document.body.style.backgroundImage = "url(img/happy.png)";
+        }
     }
 }
 
+/*UTILS*/
+
 function updateMaxValue(val, field) {
-    if (Math.abs(val) > field) {
+    if (Math.abs(val) > Math.abs(field)) {
         field = val;
     }
     return field;
@@ -80,3 +100,7 @@ function sleep(milliseconds) {
     }
 }
 
+function randomPicker(array) {
+    let i = Math.floor(Math.random() * array.length);
+    return array[i];
+}
