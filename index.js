@@ -4,19 +4,18 @@ var app = {
         x: 0,
         y: 0,
         z: 0
-    }
-};
-
-//media paths collection
-var audio = [
+    },
+    busy: false,
+    //media paths collection
+    audio: [
     "audio/cat.mp3",
     "audio/nonono.mp3"
-];
-
-var img = [
+    ],
+    img: [
     "img/broken.png",
     "img/cry.jpg"
-];
+    ]
+};
 
 //new generic sensor api
 let sensor = new LinearAccelerationSensor();
@@ -40,7 +39,6 @@ sensor.onerror = event => console.log(event.error.name, event.error.message);
 window.addEventListener('devicemotion', deviceMotionHandler, false);
 
 function deviceMotionHandler(eventData) {
-
     var SCALE = 1000;
     var acc = eventData.detail.acceleration;
     var mAcc = {};
@@ -62,22 +60,28 @@ function deviceMotionHandler(eventData) {
     var shakyUpper = 6000;
     var shakyLower = 2000;
 
-    if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
-        document.body.style.backgroundImage = "url(img/lolguy.png)";
-        var scream = new Audio(randomPicker(audio));
-        scream.play();
-        document.body.style.backgroundImage = "url(" + randomPicker(img) + ")";
-        sleep(800);
-        document.body.style.backgroundImage = "url(img/poker.png)";
-        sleep(800);
-    }
-    else {
-        if (Math.abs(mAcc.x) > shakyLower || Math.abs(mAcc.y) > shakyLower || Math.abs(mAcc.z) > shakyLower) {
+    if (!app.busy) {
+        if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
+            app.busy = true;
+            document.body.style.backgroundImage = "url(img/lolguy.png)";
+            var scream = new Audio(randomPicker(app.audio));
+            scream.play();
+            document.body.style.backgroundImage = "url(" + randomPicker(app.img) + ")";
+            sleep(800);
             document.body.style.backgroundImage = "url(img/poker.png)";
-            sleep(1000);
+            sleep(800);
+            app.busy = false;
         }
         else {
-            document.body.style.backgroundImage = "url(img/happy.jpg)";
+            if (Math.abs(mAcc.x) > shakyLower || Math.abs(mAcc.y) > shakyLower || Math.abs(mAcc.z) > shakyLower) {
+                app.busy = true;
+                document.body.style.backgroundImage = "url(img/poker.png)";
+                sleep(1000);
+                app.busy = false;
+            }
+            else {
+                document.body.style.backgroundImage = "url(img/happy.jpg)";
+            }
         }
     }
 }
