@@ -10,7 +10,7 @@ var app = {
 //media paths collection
 var audio = [
     "audio/cat.mp3",
-    "nonono.mp3"
+    "audio/nonono.mp3"
 ];
 
 var img = [
@@ -63,7 +63,7 @@ function deviceMotionHandler(eventData) {
     var shakyLower = 2000;
 
     if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
-        document.body.style.backgroundImage = "url(img/lolguy)";
+        document.body.style.backgroundImage = "url(img/lolguy.png)";
         var scream = new Audio(randomPicker(audio));
         scream.play();
         document.body.style.backgroundImage = "url(" + randomPicker(img) + ")";
@@ -77,7 +77,7 @@ function deviceMotionHandler(eventData) {
             sleep(1000);
         }
         else {
-            document.body.style.backgroundImage = "url(img/happy.png)";
+            document.body.style.backgroundImage = "url(img/happy.jpg)";
         }
     }
 }
