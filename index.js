@@ -69,7 +69,7 @@ function deviceMotionHandler(eventData) {
             sleep(3000);
             document.getElementById("meme").style.backgroundImage = "url(" + randomPicker(app.img) + ")";
             sleep(2000);
-            document.getElementById("meme").getElementById("meme").backgroundImage = "url(img/poker.png)";
+            document.getElementById("meme").backgroundImage = "url(img/poker.png)";
             sleep(2000);
             app.busy = false;
         }
