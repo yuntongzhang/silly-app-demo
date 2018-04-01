@@ -63,24 +63,25 @@ function deviceMotionHandler(eventData) {
     if (!app.busy) {
         if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
             app.busy = true;
-            document.body.style.backgroundImage = "url(img/lolguy.png)";
+            document.getElementById("meme").style.backgroundImage = "url(img/lolguy.png)";
             var scream = new Audio(randomPicker(app.audio));
             scream.play();
-            document.body.style.backgroundImage = "url(" + randomPicker(app.img) + ")";
-            sleep(800);
-            document.body.style.backgroundImage = "url(img/poker.png)";
-            sleep(800);
+            sleep(3000);
+            document.getElementById("meme").style.backgroundImage = "url(" + randomPicker(app.img) + ")";
+            sleep(2000);
+            document.getElementById("meme").getElementById("meme").backgroundImage = "url(img/poker.png)";
+            sleep(2000);
             app.busy = false;
         }
         else {
             if (Math.abs(mAcc.x) > shakyLower || Math.abs(mAcc.y) > shakyLower || Math.abs(mAcc.z) > shakyLower) {
                 app.busy = true;
-                document.body.style.backgroundImage = "url(img/poker.png)";
-                sleep(1000);
+                document.getElementById("meme").style.backgroundImage = "url(img/poker.png)";
+                sleep(2000);
                 app.busy = false;
             }
             else {
-                document.body.style.backgroundImage = "url(img/happy.jpg)";
+                document.getElementById("meme").style.backgroundImage = "url(img/happy.jpg)";
             }
         }
     }
