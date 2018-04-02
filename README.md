@@ -1,5 +1,7 @@
 # Motion Sensor and Web App demo
 
+## 0) Fork and clone, or download this repo
+
 ## 1) Adjust Chrome flags
 Android Chrome disables motion sensors and audio play from custom event triggers by default (Since chrome version 63). Enable them for your app to work.
 
