@@ -6,14 +6,11 @@ var app = {
         z: 0
     },
     busy: false,
+
     //media paths collection
     audio: [
     "audio/cat.mp3",
     "audio/nonono.mp3"
-    ],
-    img: [
-    "img/broken.png",
-    "img/cry.jpg"
     ]
 };
 
@@ -57,32 +54,14 @@ function deviceMotionHandler(eventData) {
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    var shakyUpper = 6000;
-    var shakyLower = 2000;
+    var shakyThreshold = 5000;
 
     if (!app.busy) {
-        if (Math.abs(mAcc.x) > shakyUpper || Math.abs(mAcc.y) > shakyUpper || Math.abs(mAcc.z) > shakyUpper) {
+        if (Math.abs(mAcc.x) > shakyThreshold || Math.abs(mAcc.y) > shakyThreshold || Math.abs(mAcc.z) > shakyThreshold) {
             app.busy = true;
-            document.getElementById("meme").style.backgroundImage = "url(img/lolguy.png)";
             var scream = new Audio(randomPicker(app.audio));
             scream.play();
-            sleep(3000);
-            document.getElementById("meme").style.backgroundImage = "url(" + randomPicker(app.img) + ")";
-            sleep(2000);
-            document.getElementById("meme").backgroundImage = "url(img/poker.png)";
-            sleep(2000);
             app.busy = false;
-        }
-        else {
-            if (Math.abs(mAcc.x) > shakyLower || Math.abs(mAcc.y) > shakyLower || Math.abs(mAcc.z) > shakyLower) {
-                app.busy = true;
-                document.getElementById("meme").style.backgroundImage = "url(img/poker.png)";
-                sleep(2000);
-                app.busy = false;
-            }
-            else {
-                document.getElementById("meme").style.backgroundImage = "url(img/happy.jpg)";
-            }
         }
     }
 }
