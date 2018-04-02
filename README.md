@@ -65,3 +65,8 @@ Dashboard > your-app > deployment options
 
 Configure either dropbox or Github
 
+![alt text](./img/deploy1.jpg)
+![alt text](./img/deploy2.png)
+
+<a href="https://blogs.msdn.microsoft.com/africaapps/2013/06/11/deploying-windows-azure-websites-using-dropbox/">How to dropbox</a>
+
