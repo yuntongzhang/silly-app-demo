@@ -61,7 +61,6 @@ function deviceMotionHandler(eventData) {
             app.busy = true;
             var scream = new Audio(randomPicker(app.audio));
             scream.play();
-            sleep(3000);
             app.busy = false;
         }
     }
