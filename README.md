@@ -84,7 +84,7 @@ Commit
 git commit -m "your message"
 ```
 
-Push
+Push your local changes to Github
 ```
 git push origin master:master
 ```
