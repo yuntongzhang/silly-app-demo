@@ -1,6 +1,17 @@
 # Motion Sensor and Web App demo
 
 ## 0) Fork and clone, or download this repo
+Cloning 
+```
+cd to/your/destination/folder
+git clone https://github.com/potatowagon/silly-app-demo.git 
+```
+Add remote 
+
+```
+git remote add origin https://github.com/<your-github-username>/silly-app-demo.git
+```
+copy your link from github's green clone button
 
 ## 1) Adjust Chrome flags
 Android Chrome disables motion sensors and audio play from custom event triggers by default (Since chrome version 63). Enable them for your app to work.
@@ -60,7 +71,25 @@ var scream = new Audio(randomPicker(app.audio));
 scream.play();
 ```
 
-## 3) Deploy to Azure
+## 3) Stage, Commit, Push
+ONLY FOR GIT USERS </br>
+
+Stage
+```
+git add --all
+```
+
+Commit
+```
+git commit -m "your message"
+```
+
+Push
+```
+git push origin master:master
+```
+
+## 4) Deploy to Azure
 
 Dashboard > your-app > deployment options 
 </br>
