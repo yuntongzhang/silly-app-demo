@@ -14,26 +14,11 @@ var app = {
     ]
 };
 
-//new generic sensor api
-let sensor = new LinearAccelerationSensor();
-sensor.start();
+/*INSERT ACCELEROMETER HERE*/
 
-sensor.onreading = () => {
-    var event = new CustomEvent('devicemotion', {
-        detail: {
-            acceleration: {
-                x: sensor.x,
-                y: sensor.y,
-                z: sensor.z
-            }
-        }
-    });
-    window.dispatchEvent(event);
-}
 
-sensor.onerror = event => console.log(event.error.name, event.error.message);
+/*ADD AN EVENT LISTENER TO WINDOW*/
 
-window.addEventListener('devicemotion', deviceMotionHandler, false);
 
 function deviceMotionHandler(eventData) {
     var SCALE = 1000;
@@ -53,14 +38,14 @@ function deviceMotionHandler(eventData) {
     var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )";
     document.getElementById('acc-readings').innerHTML = accReading;
 
-    //do silly stuff
+    //adjust shake threshold here
     var shakyThreshold = 5000;
 
     if (!app.busy) {
         if (Math.abs(mAcc.x) > shakyThreshold || Math.abs(mAcc.y) > shakyThreshold || Math.abs(mAcc.z) > shakyThreshold) {
             app.busy = true;
-            var scream = new Audio(randomPicker(app.audio));
-            scream.play();
+            /*DO SILLY STUFF*/
+
             app.busy = false;
         }
     }
