@@ -25,10 +25,31 @@ Search for `Autoplay policy` and change to No user gesture is required.
 
 
 ## 2) Code Snippets
+
+### HTML Button
+Let's add a button! </br>
+Paste this code under /\*INSERT HTML BUTTON HERE\*/ in index.html
+
+```
+<button type="button" onclick="scream()">Tickle!</button>
+```
+
+### Make Button scream
+Clicking on the button, scream() function is called. Lets define it. </br>
+
+Paste this under /\* INSERT SCREAM FOR BUTTON CLICK FUNCTION HERE\*/ in index.js
+
+```
+function scream() {
+    var scream = new Audio(randomPicker(app.audio));
+    scream.play();
+}
+```
+
 ### Linear Acceleration Sensor
 This is your accelerometer. This detects linear acceration without counting in gravity. </br>
 
-Paste this code snippet under /\*INSERT ACCELEROMETER HERE\*/
+Paste this code snippet under /\*INSERT ACCELEROMETER HERE\*/ in index.js
 
 ```
 try {
@@ -61,7 +82,7 @@ catch (e) {
 
 So window (your open chrome window) will catch the `devicemotion Event` thrown by sensor. </br>
 
-Paste this under /\*ADD AN EVENT LISTENER TO WINDOW\*/
+Paste this under /\*ADD AN EVENT LISTENER TO WINDOW\*/ in index.js
 
 ```
 window.addEventListener('devicemotion', deviceMotionHandler, false);
@@ -69,7 +90,7 @@ window.addEventListener('devicemotion', deviceMotionHandler, false);
 
 ### Make app scream
 
-Paste this code snippet under /\*DO SILLY STUFF\*/
+Paste this code snippet under /\*DO SILLY STUFF\*/ in index.js
 
 ```
 var scream = new Audio(randomPicker(app.audio));
