@@ -31,23 +31,28 @@ This is your accelerometer. This detects linear acceration without counting in g
 Paste this code snippet under /\*INSERT ACCELEROMETER HERE\*/
 
 ```
-let sensor = new LinearAccelerationSensor();
-sensor.start();
+try {
+    let sensor = new LinearAccelerationSensor({ frequency: 60 });
+    sensor.start();
 
-sensor.onreading = () => {
-    var event = new CustomEvent('devicemotion', {
-        detail: {
-            acceleration: {
-                x: sensor.x,
-                y: sensor.y,
-                z: sensor.z
+    sensor.onreading = () => {
+        var event = new CustomEvent('devicemotion', {
+            detail: {
+                acceleration: {
+                    x: sensor.x,
+                    y: sensor.y,
+                    z: sensor.z
+                }
             }
-        }
-    });
-    window.dispatchEvent(event);
+        });
+        window.dispatchEvent(event);
+    }
+    sensor.onerror = event => console.log(event.error.name, event.error.message);
 }
-
-sensor.onerror = event => console.log(event.error.name, event.error.message);
+catch (e) {
+    console.log(e);
+    app.usingGenericSensor = false;
+}
 ```
 
 <a href="https://developers.google.com/web/updates/2017/09/sensors-for-the-web">More info on motion sensors</a> 
@@ -69,6 +74,7 @@ Paste this code snippet under /\*DO SILLY STUFF\*/
 ```
 var scream = new Audio(randomPicker(app.audio));
 scream.play();
+sleep(2000);
 ```
 
 ## 3) Stage, Commit, Push
