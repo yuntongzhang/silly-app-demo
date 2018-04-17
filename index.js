@@ -22,7 +22,7 @@ var app = {
 
 if (window.DeviceMotionEvent || 'LinearAccelerationSensor' in window) {
     /*ADD AN EVENT LISTENER TO WINDOW*/
-    window.addEventListener('devicemotion', deviceMotionHandler, false);
+    
 }
 else {
     console.log("Sensors not supported");
