@@ -1,22 +1,77 @@
 // define global var here
 var app = {
+    usingGenericSensor: true,
     max: {
         x: 0,
         y: 0,
-        z:0
+        z: 0
     },
-    catAudio: document.getElementById("catAudio")
+    busy: false,
+
+    //media paths collection
+    audio: [
+    "audio/cat.mp3",
+    "audio/nonono.mp3"
+    ]
 };
 
-window.addEventListener('devicemotion', deviceMotionHandler, false);
-app.catAudio.play();
+//new generic sensor api
+try {
+    let sensor = new LinearAccelerationSensor({ frequency: 60 });
+    sensor.start();
+
+    sensor.onreading = () => {
+        var event = new CustomEvent('devicemotion', {
+            detail: {
+                acceleration: {
+                    x: sensor.x,
+                    y: sensor.y,
+                    z: sensor.z
+                }
+            }
+        });
+        window.dispatchEvent(event);
+    }
+    sensor.onerror = event => console.log(event.error.name, event.error.message);
+}
+catch (e) {
+    console.log(e);
+    app.usingGenericSensor = false;
+}
+
+if (window.DeviceMotionEvent || 'LinearAccelerationSensor' in window) {
+    window.addEventListener('devicemotion', deviceMotionHandler, false);
+}
+else {
+    console.log("Sensors not supported");
+}
 
 function deviceMotionHandler(eventData) {
-
     var SCALE = 1000;
-
-    var acc = eventData.acceleration
-    var accg = eventData.accelerationIncludingGravity;
+    if (app.usingGenericSensor) {
+        var acc = eventData.detail.acceleration;
+    }
+    else {
+        if (eventData.acceleration.x) {
+            var acc = eventData.acceleration;
+        }
+        else {
+            //deep clone
+            var acc = {};
+            acc.x = eventData.accelerationIncludingGravity.x;
+            acc.y = eventData.accelerationIncludingGravity.y;
+            acc.z = eventData.accelerationIncludingGravity.z;
+            if (acc.x > 8) {
+                acc.x = acc.x - 8;
+            }
+            if (acc.y > 8) {
+                acc.y = acc.y - 8;
+            }
+            if (acc.z > 8) {
+                acc.z = acc.z - 8;
+            }
+        }
+    }
     var mAcc = {};
 
     //scale acc values
@@ -29,22 +84,53 @@ function deviceMotionHandler(eventData) {
     app.max.z = updateMaxValue(mAcc.z, app.max.z);
 
     //display acc readings
-    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )"; 
+    var accReading = "<p>x: " + mAcc.x + "</br>y: " + mAcc.y + "</br>z: " + mAcc.z + "</br> max: ( " + app.max.x + ", " + app.max.y + ", " + app.max.z + " )";
     document.getElementById('acc-readings').innerHTML = accReading;
 
     //do silly stuff
-    if (Math.abs(mAcc.x) > 3000 || Math.abs(mAcc.y) > 3000 || Math.abs(mAcc.z) > 3000) {
-        document.body.style.backgroundColor = "red";
-        document.getElementById("catAudio").play();
-    }
-    else {
-        document.body.style.backgroundColor = "yellow";
+    var shakyThreshold = 11000;
+    console.log(app.busy);
+    if (!app.busy) {
+        if (Math.abs(mAcc.x) > shakyThreshold || Math.abs(mAcc.y) > shakyThreshold || Math.abs(mAcc.z) > shakyThreshold) {
+            app.busy = true;
+            var scream = new Audio(randomPicker(app.audio));
+            scream.play();
+            while (isAudioPlaying(scream)) {
+                app.busy = true;
+            }
+            sleep(2000);
+            app.busy = false;
+        }
     }
 }
 
+/*UTILS*/
+
 function updateMaxValue(val, field) {
-    if (Math.abs(val) > field) {
+    if (Math.abs(val) > Math.abs(field)) {
         field = val;
     }
     return field;
+}
+
+function sleep(milliseconds) {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+        if ((new Date().getTime() - start) > milliseconds) {
+            break;
+        }
+    }
+}
+
+function randomPicker(array) {
+    let i = Math.floor(Math.random() * array.length);
+    return array[i];
+}
+
+function isAudioPlaying(audio) {
+    return audio
+        && audio.currentTime > 0
+        && !audio.paused
+        && !audio.ended
+        && audio.readyState > 2;
 }
