@@ -1,5 +1,6 @@
 // define global var here
 var app = {
+    usingGenericSensor: true,
     max: {
         x: 0,
         y: 0,
@@ -17,12 +18,43 @@ var app = {
 /*INSERT ACCELEROMETER HERE*/
 
 
-/*ADD AN EVENT LISTENER TO WINDOW*/
 
+
+if (window.DeviceMotionEvent || 'LinearAccelerationSensor' in window) {
+    /*ADD AN EVENT LISTENER TO WINDOW*/
+    window.addEventListener('devicemotion', deviceMotionHandler, false);
+}
+else {
+    console.log("Sensors not supported");
+}
 
 function deviceMotionHandler(eventData) {
     var SCALE = 1000;
-    var acc = eventData.detail.acceleration;
+    if (app.usingGenericSensor) {
+        var acc = eventData.detail.acceleration;
+    }
+    else {
+        if (eventData.acceleration.x) {
+            var acc = eventData.acceleration;
+        }
+        else {
+            //deep clone
+            var acc = {};
+            acc.x = eventData.accelerationIncludingGravity.x;
+            acc.y = eventData.accelerationIncludingGravity.y;
+            acc.z = eventData.accelerationIncludingGravity.z;
+            if (acc.x > 8) {
+                acc.x = acc.x - 8;
+            }
+            if (acc.y > 8) {
+                acc.y = acc.y - 8;
+            }
+            if (acc.z > 8) {
+                acc.z = acc.z - 8;
+            }
+        }
+    }
+
     var mAcc = {};
 
     //scale acc values
@@ -41,6 +73,9 @@ function deviceMotionHandler(eventData) {
     //adjust shake threshold here
     var shakyThreshold = 5000;
 
+    //do silly stuff
+    var shakyThreshold = 11000;
+    console.log(app.busy);
     if (!app.busy) {
         if (Math.abs(mAcc.x) > shakyThreshold || Math.abs(mAcc.y) > shakyThreshold || Math.abs(mAcc.z) > shakyThreshold) {
             app.busy = true;
