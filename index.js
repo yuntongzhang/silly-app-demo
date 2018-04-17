@@ -134,3 +134,8 @@ function isAudioPlaying(audio) {
         && !audio.ended
         && audio.readyState > 2;
 }
+
+function scream() {
+    var scream = new Audio(randomPicker(app.audio));
+    scream.play();
+}
