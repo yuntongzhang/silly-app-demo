@@ -108,3 +108,6 @@ function randomPicker(array) {
     let i = Math.floor(Math.random() * array.length);
     return array[i];
 }
+
+/* INSERT SCREAM FOR BUTTON CLICK FUNCTION HERE*/ 
+
