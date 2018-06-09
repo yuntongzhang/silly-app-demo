@@ -16,12 +16,34 @@ var app = {
 };
 
 /*INSERT ACCELEROMETER HERE*/
+try {
+    let sensor = new LinearAccelerationSensor({ frequency: 60 });
+    sensor.start();
 
+    sensor.onreading = () => {
+        var event = new CustomEvent('devicemotion', {
+            detail: {
+                acceleration: {
+                    x: sensor.x,
+                    y: sensor.y,
+                    z: sensor.z
+                }
+            }
+        });
+        window.dispatchEvent(event);
+    }
+    sensor.onerror = event => console.log(event.error.name, event.error.message);
+}
+catch (e) {
+    console.log(e);
+    app.usingGenericSensor = false;
+}
 
 
 
 if (window.DeviceMotionEvent || 'LinearAccelerationSensor' in window) {
     /*ADD AN EVENT LISTENER TO WINDOW*/
+    window.addEventListener('devicemotion', deviceMotionHandler, false);
     
 }
 else {
@@ -74,6 +96,9 @@ function deviceMotionHandler(eventData) {
     var shakyThreshold = 5000;
 
     //do silly stuff
+    var scream = new Audio(randomPicker(app.audio));
+    scream.play();
+    sleep(2000);
     var shakyThreshold = 11000;
     console.log(app.busy);
     if (!app.busy) {
@@ -110,4 +135,8 @@ function randomPicker(array) {
 }
 
 /* INSERT SCREAM FOR BUTTON CLICK FUNCTION HERE*/ 
+function scream() {
+    var scream = new Audio(randomPicker(app.audio));
+    scream.play();
+}
 
